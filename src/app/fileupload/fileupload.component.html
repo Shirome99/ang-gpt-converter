@@ -1,0 +1,30 @@
+
+<div>
+    <input class="btn btn-primary" type="file" (change)="onFileSelected($event)" />
+  </div>
+  <div >
+    <button (click)="readFileContent()">Read Content</button>
+  </div>
+
+  <div *ngIf="displayContent">
+    <h2>File Content</h2>
+    <div class="card-body">
+        <form [formGroup]="queryFormGroup" (ngSubmit)="handleAskGPT()">
+         <div class="mb-3">
+             <label class="form-label">Query:</label>
+             <textarea formControlName="query" class="form-control" [(ngModel)]="fileContent" rows="10" cols="50" readonly></textarea>
+         </div>
+         <button class="btn btn-success">Convert</button>
+        </form>
+        <div class="alert alert-success" *ngIf="result">
+         <!--<pre>{{result|json}}</pre>-->
+         <ul class="list-group">
+             <li class="list-group-item" *ngFor="let choice of result.choices">
+             <pre>{{choice.message.content}}  </pre>
+             <button (click)="downloadAsCsFile(choice.message.content)">Télécharger en .cs</button>
+             </li>
+            </ul>
+              
+        </div>
+     </div>
+  </div>
